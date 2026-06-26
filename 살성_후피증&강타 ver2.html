@@ -1,0 +1,337 @@
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); font-size: 12px; }
+.wrap { padding: 1rem 0; }
+
+.maker-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.02em;
+  color: #C8922A; padding: 4px 12px; margin-bottom: 1rem;
+  border: 1px solid rgba(200,146,42,0.35); border-radius: 20px;
+  background: rgba(200,146,42,0.08);
+}
+
+.premise-box {
+  border-radius: var(--border-radius-md);
+  padding: 11px 14px; margin-bottom: 1.2rem;
+  background: rgba(55,138,221,0.07);
+  border-left: 3px solid #378ADD;
+  font-size: 11px; color: var(--color-text-secondary); line-height: 1.85;
+}
+.premise-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 20px; }
+.premise-item { display: flex; align-items: center; gap: 6px; }
+.badge { display: inline-block; padding: 1px 7px; border-radius: 10px; font-size: 10px; font-weight: 700; }
+.badge-crit  { background: rgba(226,75,74,0.15);  color: #E24B4A; }
+.badge-rear  { background: rgba(55,138,221,0.15); color: #378ADD; }
+.badge-stone { background: rgba(200,146,42,0.18); color: #C8922A; }
+.badge-base  { background: rgba(255,255,255,0.08); color: var(--color-text-secondary); border: 1px solid var(--color-border-secondary); }
+
+.controls { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.1rem; }
+.ctrl-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ctrl-label { font-size: 11px; font-weight: 700; color: var(--color-text-secondary); width: 78px; flex-shrink: 0; }
+.seg { display: flex; gap: 4px; flex-wrap: wrap; }
+.seg-btn {
+  font-size: 11px; padding: 5px 11px; border-radius: var(--border-radius-md);
+  border: 1px solid var(--color-border-secondary); background: transparent;
+  color: var(--color-text-secondary); cursor: pointer; white-space: nowrap; transition: all .12s;
+}
+.seg-btn:hover { color: var(--color-text-primary); }
+.seg-btn.active { font-weight: 700; color: #fff; border-color: transparent; }
+.seg-btn.active.c-case { background: #3377BB; }
+.seg-btn.active.c-back { background: #1D9E75; }
+.seg-btn.active.c-buff { background: #B5793A; }
+
+.case-header {
+  font-size: 11px; color: var(--color-text-secondary);
+  margin-bottom: 10px; padding: 7px 12px;
+  background: var(--color-background-secondary); border-radius: var(--border-radius-md);
+  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+}
+.case-header strong { color: var(--color-text-primary); }
+.formula-pill { font-size: 10px; padding: 2px 8px; border-radius: 8px; background: rgba(255,255,255,0.05); border: 1px solid var(--color-border-secondary); }
+
+.legend-row { display: flex; gap: 12px; margin-bottom: 10px; font-size: 11px; color: var(--color-text-secondary); align-items: center; flex-wrap: wrap; }
+.ld { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+
+.tbl-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th {
+  padding: 7px 6px; text-align: center; font-weight: 600;
+  color: var(--color-text-secondary); border-bottom: 2px solid var(--color-border-secondary);
+  font-size: 11px; white-space: nowrap; background: var(--color-background-secondary);
+}
+td { padding: 6px 6px; text-align: center; border-bottom: 0.5px solid var(--color-border-tertiary); vertical-align: middle; }
+tr:hover td { background: var(--color-background-secondary); }
+
+.td-stone { font-weight: 700; color: #C8922A; }
+.td-cs { color: #E24B4A; font-weight: 700; }
+.td-rs { color: #378ADD; font-weight: 700; }
+.td-ratio { font-weight: 700; font-size: 11px; }
+.td-crit { color: #E24B4A; }
+.td-rear { color: #378ADD; }
+.td-dps { font-weight: 700; color: #1D9E75; }
+
+.slot-block { display: flex; flex-direction: column; gap: 3px; align-items: flex-start; min-width: 150px; }
+.slot-line { display: flex; gap: 2px; align-items: center; }
+.slot-label { font-size: 9px; width: 30px; text-align: right; margin-right: 3px; color: var(--color-text-tertiary); }
+.s { width: 11px; height: 11px; border-radius: 2px; display: inline-block; }
+.s-crit  { background: #E24B4A; }
+.s-rear  { background: #378ADD; }
+.s-stone { background: #C8922A; }
+.stone-count { font-size: 9px; color: #C8922A; margin-left: 3px; }
+
+.note { font-size: 11px; color: var(--color-text-tertiary); margin-top: 10px; line-height: 1.8; }
+.insight-box {
+  margin-top: 1.1rem; border-radius: var(--border-radius-md);
+  padding: 11px 14px; background: rgba(29,158,117,0.06);
+  border-left: 3px solid #1D9E75;
+  font-size: 11px; color: var(--color-text-secondary); line-height: 1.8;
+}
+.ititle { font-size: 12px; font-weight: 700; color: #1D9E75; margin-bottom: 5px; }
+.method-box {
+  margin-top: 0.8rem; border-radius: var(--border-radius-md);
+  padding: 10px 14px; background: rgba(226,75,74,0.05);
+  border-left: 3px solid #E24B4A;
+  font-size: 11px; color: var(--color-text-secondary); line-height: 1.8;
+}
+.method-box .mtitle { font-size: 12px; font-weight: 700; color: #E24B4A; margin-bottom: 4px; }
+</style>
+
+<div class="wrap">
+
+<div class="maker-tag">🎬 제작자 : 스텝튜브</div>
+
+<div class="premise-box">
+  <div class="premise-grid">
+    <div class="premise-item">🪨 <strong>마석</strong> <span class="badge badge-stone">0~18부위 · 부위당 후피증 +1%</span></div>
+    <div class="premise-item">🐾 <strong>펫 슬롯 10개</strong> <span class="badge badge-rear">후피증 3%</span> / <span class="badge badge-crit">강타 2.4%</span></div>
+    <div class="premise-item">⚔️ <strong>배후강타 패시브</strong> <span class="badge badge-base">30Lv 17.5% / 36Lv 20.5%</span> · 업타임100%시 1.5배</div>
+    <div class="premise-item">🎯 <strong>강타</strong> 백어택 무관 항상 발동 · <strong>후피증</strong> 백어택 성공시만 발동</div>
+    <div class="premise-item">🎯 <strong>허수아비</strong> <span class="badge badge-crit">강타저항 0% → 강타기본 50%</span> · 백어택 100% 고정</div>
+    <div class="premise-item" style="grid-column:1/3;">📈 <strong>최적 기준 = DPS 배수 최대화</strong> &nbsp; (1 + 강타총합) × (1 + 후방총합·실기여) 가 최대가 되는 펫 배분</div>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="ctrl-group">
+    <span class="ctrl-label">케이스</span>
+    <div class="seg" id="seg-case"></div>
+  </div>
+  <div class="ctrl-group">
+    <span class="ctrl-label">백어택 비율</span>
+    <div class="seg" id="seg-back"></div>
+  </div>
+  <div class="ctrl-group">
+    <span class="ctrl-label">파티 버프</span>
+    <div class="seg" id="seg-buff"></div>
+  </div>
+</div>
+
+<div class="case-header" id="case-header"></div>
+
+<div class="legend-row">
+  <span><span class="ld s-stone"></span> 마석 후피증</span>
+  <span><span class="ld s-crit"></span> 펫 강타</span>
+  <span><span class="ld s-rear"></span> 펫 후방</span>
+  <span style="color:#1D9E75;font-weight:600;">DPS 배수 = 기본 대비 데미지 증가율</span>
+</div>
+
+<div class="tbl-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>마석 부위</th>
+        <th>펫 강타</th>
+        <th>펫 후방</th>
+        <th>강타:후방</th>
+        <th>슬롯 구성</th>
+        <th>강타 총합</th>
+        <th>후방 총합·실기여</th>
+        <th>최적 DPS</th>
+      </tr>
+    </thead>
+    <tbody id="tbl-body"></tbody>
+  </table>
+</div>
+
+<p class="note" id="tbl-note"></p>
+<div class="insight-box" id="insight-box"></div>
+<div class="method-box">
+  <div class="mtitle">📐 계산 방식 — 왜 A=B 균형이 아닌가</div>
+  펫 슬롯을 강타에 넣으면 +2.4%, 후방에 넣으면 +3%×백어택비율로 <strong>증가폭이 다릅니다.</strong> 두 값을 단순히 같게(A=B) 맞추는 건 곱이 최대가 되는 조건이 아닙니다. 그래서 펫 강타 0~10슬롯을 전부 대입해 <strong>(1+강타총합)×(1+후방실기여)가 최대인 배분</strong>을 직접 찾습니다. 백어택이 낮을수록 후방 효율(3%×백어택)이 깎여 강타로, 파티 버프가 클수록 강타 기본값이 높아져 후방으로 최적점이 이동합니다.
+</div>
+</div>
+
+<script>
+const PASSIVE = { '30': 17.5, '36': 20.5 };
+const UPTIME  = { '50': 0.5, '70': 0.7, '100': 1.0 };
+const BUFF    = { 'none': 0, 'hobup': 5, 'chiyu': 7, 'both': 12 };
+const CRIT_PER = 2.4, REAR_PER = 3.0, PET_SLOTS = 10;
+const BOSS_RESIST = 30;   // 보스 강타저항
+const DUMMY_RESIST = 0;   // 허수아비 강타저항
+const BASE_CRIT_RAW = 50; // 기본 강타 수치
+
+// 일반(보스) 케이스 + 허수아비 케이스
+const CASES = [
+  { key:'30-50',  lv:'30', up:'50',  label:'30Lv 업타임50%',  dummy:false },
+  { key:'30-70',  lv:'30', up:'70',  label:'30Lv 업타임70%',  dummy:false },
+  { key:'30-100', lv:'30', up:'100', label:'30Lv 업타임100%', dummy:false },
+  { key:'36-50',  lv:'36', up:'50',  label:'36Lv 업타임50%',  dummy:false },
+  { key:'36-70',  lv:'36', up:'70',  label:'36Lv 업타임70%',  dummy:false },
+  { key:'36-100', lv:'36', up:'100', label:'36Lv 업타임100%', dummy:false },
+  { key:'dummy-30-70',  lv:'30', up:'70',  label:'🎯 허수아비 30Lv 업70%',  dummy:true },
+  { key:'dummy-36-70',  lv:'36', up:'70',  label:'🎯 허수아비 36Lv 업70%',  dummy:true },
+];
+const BACKS = [ {key:'80', val:0.8, label:'80%'}, {key:'100', val:1.0, label:'100%'} ];
+const BUFFS = [
+  {key:'none',  label:'없음 (20%)'},
+  {key:'hobup', label:'호법 +5% (25%)'},
+  {key:'chiyu', label:'치유 +7% (27%)'},
+  {key:'both',  label:'호법+치유 +12% (32%)'},
+];
+
+let state = { case:'30-70', back:'80', buff:'none' };
+
+function rearAvg(lv, up) { return PASSIVE[lv] * (1 + UPTIME[up]*0.5); }
+
+// 기본 강타 실발동 = 50 - 강타저항 + 버프
+function baseCritValue(caseObj, buffKey) {
+  const resist = caseObj.dummy ? DUMMY_RESIST : BOSS_RESIST;
+  return (BASE_CRIT_RAW - resist) + BUFF[buffKey];
+}
+
+function effectiveBack(caseObj) {
+  // 허수아비는 백어택 100% 고정
+  if (caseObj.dummy) return 1.0;
+  return BACKS.find(b=>b.key===state.back).val;
+}
+
+function computeRows(caseObj, buffKey) {
+  const ra = rearAvg(caseObj.lv, caseObj.up);
+  const baseCrit = baseCritValue(caseObj, buffKey);
+  const backVal = effectiveBack(caseObj);
+  const rows = [];
+  for (let stone=0; stone<=18; stone++) {
+    let bestCs = 0, bestVal = -1;
+    for (let cs=0; cs<=PET_SLOTS; cs++) {
+      const rs = PET_SLOTS - cs;
+      const critTotal = baseCrit + cs*CRIT_PER;
+      const rearTotal = (ra + stone + rs*REAR_PER) * backVal;
+      const dps = (1+critTotal/100)*(1+rearTotal/100);
+      if (dps > bestVal) { bestVal = dps; bestCs = cs; }
+    }
+    const rs = PET_SLOTS - bestCs;
+    const critTotal = baseCrit + bestCs*CRIT_PER;
+    const rearTotal = (ra + stone + rs*REAR_PER) * backVal;
+    rows.push({
+      stone, cs:bestCs, rs,
+      crit:+critTotal.toFixed(2),
+      rear:+rearTotal.toFixed(2),
+      dps:+((bestVal-1)*100).toFixed(2)
+    });
+  }
+  return { ra, baseCrit, backVal, rows };
+}
+
+function renderSegs() {
+  const curCase = CASES.find(c=>c.key===state.case);
+  const sc = document.getElementById('seg-case'); sc.innerHTML='';
+  CASES.forEach(c => {
+    const b=document.createElement('button');
+    let cls='seg-btn c-case'+(state.case===c.key?' active':'');
+    b.className=cls; b.textContent=c.label;
+    if (c.dummy) b.style.borderColor = 'rgba(226,75,74,0.4)';
+    if (c.dummy && state.case===c.key) b.style.background = '#E24B4A';
+    b.onclick=()=>{state.case=c.key;render();};
+    sc.appendChild(b);
+  });
+  const sb = document.getElementById('seg-back'); sb.innerHTML='';
+  BACKS.forEach(c => {
+    const b=document.createElement('button');
+    const locked = curCase.dummy; // 허수아비면 백어택 잠금
+    const isActive = curCase.dummy ? c.key==='100' : state.back===c.key;
+    b.className='seg-btn c-back'+(isActive?' active':'');
+    b.textContent=c.label;
+    if (locked) { b.style.opacity = (c.key==='100'?'1':'0.35'); b.style.cursor='not-allowed'; }
+    b.onclick=()=>{ if(!locked){ state.back=c.key; render(); } };
+    sb.appendChild(b);
+  });
+  const su = document.getElementById('seg-buff'); su.innerHTML='';
+  BUFFS.forEach(c => {
+    const b=document.createElement('button');
+    b.className='seg-btn c-buff'+(state.buff===c.key?' active':'');
+    b.textContent=c.label; b.onclick=()=>{state.buff=c.key;render();};
+    su.appendChild(b);
+  });
+}
+
+function buildSlots(cs, rs, stone) {
+  let critLine = '<div class="slot-line"><span class="slot-label">강타</span>';
+  for (let i=0;i<cs;i++) critLine += '<span class="s s-crit"></span>';
+  critLine += '</div>';
+  let rearLine = '<div class="slot-line"><span class="slot-label">후방</span>';
+  for (let i=0;i<rs;i++) rearLine += '<span class="s s-rear"></span>';
+  rearLine += '</div>';
+  let stoneLine = '<div class="slot-line"><span class="slot-label">마석</span>';
+  for (let i=0;i<stone;i++) stoneLine += '<span class="s s-stone" style="width:6px;height:11px;"></span>';
+  stoneLine += `<span class="stone-count">${stone}/18</span></div>`;
+  return `<div class="slot-block">${critLine}${rearLine}${stoneLine}</div>`;
+}
+
+function render() {
+  renderSegs();
+  const caseObj = CASES.find(c=>c.key===state.case);
+  const buffObj = BUFFS.find(c=>c.key===state.buff);
+  const { ra, baseCrit, backVal, rows } = computeRows(caseObj, state.buff);
+  const resist = caseObj.dummy ? DUMMY_RESIST : BOSS_RESIST;
+  const backLabel = caseObj.dummy ? '100% (고정)' : BACKS.find(b=>b.key===state.back).label;
+
+  const titleColor = caseObj.dummy ? '#E24B4A' : '#3377BB';
+  document.getElementById('case-header').innerHTML =
+    `<strong style="color:${titleColor}">${caseObj.label}</strong>
+     <span class="formula-pill">배후강타 평균 ${ra.toFixed(3)}%</span>
+     <span class="formula-pill">강타저항 ${resist}%</span>
+     <span class="formula-pill">백어택 ${backLabel}</span>
+     <span class="formula-pill">파티버프 ${buffObj.label}</span>
+     <span class="formula-pill" style="color:#E24B4A;font-weight:700;">강타 기본 ${baseCrit}%</span>`;
+
+  const tbody = document.getElementById('tbl-body');
+  tbody.innerHTML = '';
+  rows.forEach(row => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="td-stone">${row.stone}부위</td>
+      <td class="td-cs">${row.cs}</td>
+      <td class="td-rs">${row.rs}</td>
+      <td class="td-ratio">${row.cs}:${row.rs}</td>
+      <td>${buildSlots(row.cs, row.rs, row.stone)}</td>
+      <td class="td-crit">${row.crit.toFixed(2)}%</td>
+      <td class="td-rear">${row.rear.toFixed(2)}%</td>
+      <td class="td-dps">+${row.dps.toFixed(2)}%</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById('tbl-note').textContent =
+    `※ 강타총합 = ${baseCrit}%(50%−강타저항${resist}%+버프${BUFF[state.buff]}%) + 펫강타×2.4%  |  후방총합·실기여 = (배후강타 ${ra.toFixed(2)}% + 마석×1% + 펫후방×3%) × ${backVal}(백어택)  |  최적 DPS = 두 항의 곱이 최대인 배분`;
+
+  const csCounts = rows.map(r=>r.cs);
+  const minCs = Math.min(...csCounts), maxCs = Math.max(...csCounts);
+  const firstMin = rows.find(r=>r.cs===minCs).stone;
+
+  let insightHead, insightBody;
+  if (caseObj.dummy) {
+    insightHead = `🎯 ${caseObj.label} / 백어택 100% 고정 / ${buffObj.label} — 허수아비 딜실험 최적 배분`;
+    insightBody = `허수아비는 <strong>강타저항 0%</strong>라 기본 강타가 50% 그대로 들어가, 강타항이 이미 매우 큽니다(기본 ${baseCrit}%). 곱연산 특성상 이미 큰 강타항보다 <strong>상대적으로 작은 후방항을 키우는 게 DPS에 유리</strong>해, 펫은 ${minCs===maxCs?`전 구간 후방 ${10-minCs}슬롯`:`후방 위주`}로 쏠립니다. <strong>주의 — 허수아비 딜은 실전 보스 딜과 다릅니다.</strong> 보스는 강타저항 30%가 붙어 강타 효율이 깎이므로, 허수아비 최적 세팅을 실전에 그대로 쓰면 안 됩니다.`;
+  } else {
+    insightHead = `💡 ${caseObj.label} / 백어택 ${backLabel} / ${buffObj.label} — 펫 최적 배분`;
+    insightBody = `마석 부위가 ${firstMin}→18으로 늘어날수록 펫 강타 슬롯은 <strong>${minCs}슬롯 → ${maxCs}슬롯</strong>으로 증가합니다. 마석이 후피증을 채워줄수록 펫은 강타로 메우는 게 DPS 최대입니다. ${backVal<1 ? `백어택이 ${backLabel}로 불안정해 후방 효율이 깎이므로, 백어택 100% 대비 강타 슬롯을 더 확보하는 것이 유리합니다.` : `백어택 100%라 후방 손실이 없어, 80% 케이스보다 후방 슬롯을 더 가져갑니다.`}`;
+  }
+  document.getElementById('insight-box').innerHTML =
+    `<div class="ititle" style="color:${caseObj.dummy?'#E24B4A':'#1D9E75'}">${insightHead}</div>${insightBody}`;
+  document.getElementById('insight-box').style.background = caseObj.dummy ? 'rgba(226,75,74,0.06)' : 'rgba(29,158,117,0.06)';
+  document.getElementById('insight-box').style.borderLeftColor = caseObj.dummy ? '#E24B4A' : '#1D9E75';
+}
+
+render();
+</script>
